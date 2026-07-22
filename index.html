@@ -19,7 +19,7 @@
        ============================================ */
 
     /* Brand — 메인 포인트 컬러 (버튼 / 날짜뱃지 / 호버 강조) */
-    --orange-100:#FFF1E3;   /* ⬅ 포인트 컬러(연함) : 날짜뱃지 배경 */
+    --orange-100:#f3f3cc;   /* ⬅ 포인트 컬러(연함) : 날짜뱃지 배경 */
     --orange-500:#FF6700;   /* ⬅ 포인트 컬러(기본) : 버튼, 카드 호버 테두리, 날짜뱃지 글씨 */
     --orange-600:#DB4B00;   /* ⬅ 포인트 컬러(진함) : 버튼/제목 호버 시 */
     --orange-50:#FFF8F2; --orange-300:#FFC088;   /* (거의 안 씀, 안 건드려도 OK) */
@@ -32,7 +32,7 @@
     --gray-500:#75787B;     /* ⬅ 설명 문구, 카운트 텍스트 */
     --gray-400:#9DA0A3;     /* ⬅ 파일명 등 가장 옅은 글씨 */
     --gray-300:#C5C8CB;     /* ⬅ 화살표 아이콘, 버튼 테두리 */
-    --gray-200:#DEE1E4;     /* ⬅ 카드 테두리(기본 상태) */
+    --gray-200:#2f4858;     /* ⬅ 카드 테두리(기본 상태) */
     --gray-white:#FFFFFF; --gray-50:#F6F9FC; --gray-100:#EDF0F3; --gray-600:#4D5453;  /* (거의 안 씀) */
   }
   *{box-sizing:border-box;}
@@ -158,13 +158,13 @@
   <header>
     <p class="eyebrow">Dankkume · Event Archive</p>
     <h1>이벤트 기록 보관소</h1>
-    <p class="sub">지난 이벤트 보기</p>
+    <p class="sub">새 이벤트 파일을 저장소에 올리고, 아래 EVENTS 목록에 한 줄만 추가하면 여기에 나타나요.</p>
     <span class="count-label" id="countLabel"></span>
   </header>
 
   <div id="content"></div>
 
-  <footer>event-history</footer>
+  <footer>event-history · 단꿈e 디자인 시스템 적용</footer>
 </div>
 
 <script>
@@ -178,7 +178,7 @@
      ============================================================ */
   const EVENTS = [
     { date: '2026-03', title: '독서 시즌2 오픈 이벤트',     file: '2026-03-독서_시즌2_오픈_이벤트_260318-0331.html' },
-    { date: '2026-06', title: '정주연의 초등 수학 오픈 이벤트',  file: '2026-06-수학_정주연T_오픈_이벤트_260617-0717' },
+    { date: '2026-06', title: '정주연의 초등 수학 오픈 이벤트',  file: '2026-06-수학_정주연T_오픈_이벤트_260617-0717.html' },
     { date: '2026-05', title: '어린이날 이벤트',  file: '2026-05-childrens-day-event.html' },
   ];
 
@@ -207,7 +207,7 @@
           const [, mo] = e.date.split('-');
           const stamp = mo ? `${year}.${mo}` : year;
           return `
-            <a class="entry" href="${encodeURIComponent(e.file)}">
+            <a class="entry" href="${encodeURIComponent(e.file)}" target="_blank" rel="noopener noreferrer">
               <span class="stamp">${stamp}</span>
               <span class="body-col">
                 <div class="title">${e.title}</div>
