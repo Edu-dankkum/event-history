@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event History · 단꿈e</title>
+
+<!-- 원티드 산스 -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous" />
+<link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/static/complete/WantedSans.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/static/complete/WantedSans.min.css" />
+
+<style>
+  :root{
+    /* Brand */
+    --orange-50:#FFF8F2; --orange-100:#FFF1E3; --orange-300:#FFC088;
+    --orange-500:#FF6700; --orange-600:#DB4B00;
+
+    /* Gray */
+    --gray-white:#FFFFFF; --gray-50:#F6F9FC; --gray-100:#EDF0F3;
+    --gray-200:#DEE1E4; --gray-300:#C5C8CB; --gray-400:#9DA0A3;
+    --gray-500:#75787B; --gray-600:#4D5453; --gray-700:#25282B;
+
+    --bg-beige:#EEE3D8;
+    --alert-red:#F04438;
+
+    --shadow-sm: 0 1px 2px rgba(37,40,43,0.06);
+    --shadow-md: 0 2px 6px rgba(37,40,43,0.08);
+    --shadow-lg: 0 4px 12px rgba(37,40,43,0.10);
+
+    --radius-xs:8px; --radius-sm:20px; --radius-md:32px; --radius-xl:9999px;
+
+    --space-xs:4px; --space-sm:8px; --space-md:16px; --space-lg:24px; --space-xl:40px; --space-2xl:80px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg-beige);
+    color:var(--gray-700);
+    font-family:'Wanted Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:800px;
+    margin:0 auto;
+    padding:var(--space-2xl) var(--space-lg) 120px;
+  }
+  header{ margin-bottom:var(--space-2xl); }
+  .eyebrow{
+    font-size:12px; line-height:18px; font-weight:700;
+    letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--orange-500);
+    margin:0 0 var(--space-sm);
+  }
+  h1{
+    font-weight:800;
+    font-size:clamp(30px, 5vw, 36px);
+    line-height:50px;
+    margin:0 0 var(--space-sm);
+    color:var(--gray-700);
+    letter-spacing:0;
+  }
+  .sub{
+    font-size:16px; line-height:24px; font-weight:400;
+    color:var(--gray-500);
+    max-width:52ch;
+    margin:0;
+  }
+  .meta-row{
+    display:flex; align-items:center; gap:var(--space-md);
+    margin-top:var(--space-lg);
+  }
+  .count-label{
+    font-size:14px; line-height:20px; font-weight:500; color:var(--gray-500);
+  }
+  .btn-outline{
+    background:var(--gray-white);
+    color:var(--gray-700);
+    border:1.5px solid var(--gray-300);
+    border-radius:var(--radius-xs);
+    font-family:'Wanted Sans', sans-serif;
+    font-size:14px; font-weight:700;
+    padding:8px 16px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .btn-outline:hover, .btn-outline:focus-visible{
+    background:var(--orange-100);
+    color:var(--orange-600);
+    border-color:var(--orange-500);
+    outline:none;
+  }
+
+  .year-group{ margin-bottom:var(--space-xl); }
+  .year-label{
+    display:flex; align-items:center; gap:var(--space-md);
+    margin-bottom:var(--space-md);
+  }
+  .year-label .num{
+    font-size:24px; line-height:36px; font-weight:800; color:var(--gray-700);
+  }
+  .year-label .rule{
+    flex:1; height:1px; background:var(--gray-200);
+  }
+  .year-label .cnt{
+    font-size:12px; line-height:18px; font-weight:700; color:var(--gray-400);
+  }
+
+  .entry{
+    display:flex; align-items:center; gap:var(--space-md);
+    background:var(--gray-white);
+    border:0.5px solid var(--gray-200);
+    border-radius:var(--radius-sm);
+    padding:16px 20px;
+    margin-bottom:var(--space-sm);
+    text-decoration:none;
+    color:inherit;
+    box-shadow:var(--shadow-sm);
+    transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  .entry:hover, .entry:focus-visible{
+    border:1.5px solid var(--orange-500);
+    box-shadow:var(--shadow-md);
+    transform:translateY(-1px);
+    outline:none;
+  }
+  .entry:hover .title, .entry:focus-visible .title{ color:var(--orange-600); }
+  .entry:hover .arrow, .entry:focus-visible .arrow{ color:var(--orange-500); transform:translateX(4px); }
+
+  .stamp{
+    flex:none;
+    font-size:12px; font-weight:700;
+    color:var(--orange-600);
+    background:var(--orange-100);
+    border-radius:var(--radius-xl);
+    padding:4px 12px;
+    white-space:nowrap;
+  }
+  .body-col{ flex:1; min-width:0; }
+  .title{
+    font-size:18px; line-height:26px; font-weight:700;
+    color:var(--gray-700);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    transition:color .15s ease;
+  }
+  .folder{
+    font-size:12px; line-height:18px; font-weight:400;
+    color:var(--gray-400);
+    margin-top:2px;
+  }
+  .arrow{
+    flex:none;
+    font-size:13px; font-weight:700;
+    color:var(--gray-300);
+    transition:color .15s ease, transform .15s ease;
+  }
+
+  .state{
+    font-size:14px; line-height:22px; font-weight:500;
+    color:var(--gray-500);
+    background:var(--gray-white);
+    border-radius:var(--radius-sm);
+    padding:var(--space-xl);
+    text-align:center;
+  }
+  .state.error{ color:var(--alert-red); }
+
+  footer{
+    margin-top:var(--space-2xl);
+    font-size:12px; color:var(--gray-400);
+  }
+
+  @media (prefers-reduced-motion: reduce){ * { transition:none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Dankkume · Event Archive</p>
+    <h1>이벤트 기록 보관소</h1>
+    <p class="sub">폴더를 추가하면 이 페이지가 자동으로 목록을 갱신해요. 링크를 손으로 정리할 필요 없어요.</p>
+    <div class="meta-row">
+      <span class="count-label" id="countLabel">불러오는 중...</span>
+      <button class="btn-outline" id="refreshBtn" type="button">새로고침</button>
+    </div>
+  </header>
+
+  <div id="content">
+    <p class="state">기록을 불러오는 중이에요...</p>
+  </div>
+
+  <footer>event-history · 단꿈e 디자인 시스템 적용</footer>
+</div>
+
+<script>
+  // ⚠️ 아래 두 값만 본인 정보로 바꿔주세요
+  const GITHUB_USERNAME = "여기에-본인-깃허브-아이디";
+  const REPO_NAME = "event-history";
+
+  const contentEl = document.getElementById('content');
+  const countEl = document.getElementById('countLabel');
+  const refreshBtn = document.getElementById('refreshBtn');
+
+  const EXCLUDE = new Set(['.github', 'assets', 'images', 'img', 'css', 'js']);
+
+  function parseFolder(name){
+    const m = name.match(/^(\d{4})-(\d{2})(?:-(\d{2}))?[-_]?(.*)$/);
+    if(m){
+      const [, y, mo, d, rest] = m;
+      const label = d ? `${y}.${mo}.${d}` : `${y}.${mo}`;
+      const title = rest ? rest.replace(/[-_]/g, ' ') : name;
+      return { year: y, stamp: label, title: title || name };
+    }
+    return { year: '기타', stamp: '—', title: name.replace(/[-_]/g, ' ') };
+  }
+
+  async function loadEntries(){
+    contentEl.innerHTML = '<p class="state">기록을 불러오는 중이에요...</p>';
+    countEl.textContent = '불러오는 중...';
+    try{
+      const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/`, {
+        headers: { 'Accept': 'application/vnd.github+json' }
+      });
+      if(!res.ok) throw new Error(`GitHub API 응답 오류 (${res.status})`);
+      const items = await res.json();
+
+      const folders = items
+        .filter(it => it.type === 'dir' && !EXCLUDE.has(it.name))
+        .map(it => ({ ...parseFolder(it.name), folderName: it.name }));
+
+      if(folders.length === 0){
+        contentEl.innerHTML = '<p class="state">아직 기록된 이벤트가 없어요. 폴더를 추가하면 여기에 자동으로 나타나요.</p>';
+        countEl.textContent = '0건 기록됨';
+        return;
+      }
+
+      const groups = {};
+      folders.forEach(f => {
+        groups[f.year] = groups[f.year] || [];
+        groups[f.year].push(f);
+      });
+      const years = Object.keys(groups).sort((a,b) => b.localeCompare(a));
+
+      contentEl.innerHTML = years.map(year => {
+        const rows = groups[year]
+          .sort((a,b) => b.stamp.localeCompare(a.stamp))
+          .map(f => `
+            <a class="entry" href="${encodeURIComponent(f.folderName)}/">
+              <span class="stamp">${f.stamp}</span>
+              <span class="body-col">
+                <div class="title">${f.title}</div>
+                <div class="folder">/${f.folderName}</div>
+              </span>
+              <span class="arrow">열기 →</span>
+            </a>`).join('');
+        return `<section class="year-group">
+                  <div class="year-label">
+                    <span class="num">${year}</span>
+                    <span class="rule"></span>
+                    <span class="cnt">${groups[year].length}건</span>
+                  </div>
+                  ${rows}
+                </section>`;
+      }).join('');
+
+      countEl.textContent = `총 ${folders.length}건 기록됨`;
+    }catch(err){
+      contentEl.innerHTML = `<p class="state error">목록을 불러오지 못했어요: ${err.message}<br>GITHUB_USERNAME 값이 올바른지 확인해주세요.</p>`;
+      countEl.textContent = '불러오기 실패';
+    }
+  }
+
+  refreshBtn.addEventListener('click', loadEntries);
+  loadEntries();
+</script>
+</body>
+</html>
