@@ -178,7 +178,7 @@
   <header>
     <p class="eyebrow">Dankkume · Event Archive</p>
     <h1>이벤트 기록 보관소</h1>
-    <p class="sub">폴더를 추가하면 이 페이지가 자동으로 목록을 갱신해요. 링크를 손으로 정리할 필요 없어요.</p>
+    <p class="sub">지난 이벤트 보관</p>
     <div class="meta-row">
       <span class="count-label" id="countLabel">불러오는 중...</span>
       <button class="btn-outline" id="refreshBtn" type="button">새로고침</button>
@@ -186,7 +186,7 @@
   </header>
 
   <div id="content">
-    <p class="state">기록을 불러오는 중이에요...</p>
+    <p class="state">기록을 불러오는 중...</p>
   </div>
 
   <footer>event-history · 단꿈e 디자인 시스템 적용</footer>
@@ -215,7 +215,7 @@
   }
 
   async function loadEntries(){
-    contentEl.innerHTML = '<p class="state">기록을 불러오는 중이에요...</p>';
+    contentEl.innerHTML = '<p class="state">기록을 불러오는 중...</p>';
     countEl.textContent = '불러오는 중...';
     try{
       const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/`, {
@@ -229,7 +229,7 @@
         .map(it => ({ ...parseFolder(it.name), folderName: it.name }));
 
       if(folders.length === 0){
-        contentEl.innerHTML = '<p class="state">아직 기록된 이벤트가 없어요. 폴더를 추가하면 여기에 자동으로 나타나요.</p>';
+        contentEl.innerHTML = '<p class="state">아직 기록된 이벤트가 없어요.</p>';
         countEl.textContent = '0건 기록됨';
         return;
       }
